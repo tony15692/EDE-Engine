@@ -1,0 +1,8 @@
+[project]
+name = "ede-full-stack"
+version = "1.0.0"
+description = "Evidence-aware Dynamics & Design Engine"
+requires-python = ">=3.10"
+
+[project.scripts]
+ede = "ede_cli:main"
