@@ -1,0 +1,16 @@
+{
+  "name":"EDE real event-log benchmark — Sepsis Cases",
+  "status":"ARCHIVED_REAL_BENCHMARK",
+  "dataset":"Sepsis Cases - Event Log",
+  "doi":"10.4121/uuid:915d2bfb-7e84-49ad-a286-dc35f063a460",
+  "source_url":"https://data.4tu.nl/articles/_/12707639/1",
+  "rows":15214,"cases":1050,"activities":16,"holdout_points":4081,
+  "split":"chronological 70/30 by first-event timestamp",
+  "metrics":{
+    "B0":{"log_loss":2.1649040972,"accuracy":0.2308257780},
+    "B1":{"log_loss":1.2689860573,"accuracy":0.5606469003},
+    "B2":{"log_loss":1.2540197708,"accuracy":0.5704484195},
+    "B3":{"log_loss":1.2964784992,"accuracy":0.5692232296}
+  },
+  "interpretation":"Archived evidence for the observation layer only; it is not counterfactual burden calibration."
+}
