@@ -67,7 +67,7 @@ class Handler(BaseHTTPRequestHandler):
     o=io.StringIO();w=csv.writer(o);w.writerow(['event_id','unit_id','timestamp','actor','activity','state_before','state_after','source_id','confidence','completion','rework']);[w.writerow([e.event_id,e.unit_id,e.timestamp,e.actor,e.activity,e.state_before,e.state_after,e.source_id,e.confidence,e.completion,e.rework]) for e in events];self.send_response(200);b=o.getvalue().encode();self.send_header('Content-Type','text/csv');self.send_header('Content-Disposition','attachment; filename="ede_events.csv"');self.end_headers();self.wfile.write(b);return
    if path=='/':return self.send_file(FRONTEND/'index.html','text/html')
    if path.startswith('/static/'):
-    p=FRONTEND/Path(path[8:]);return self.send_file(p,{' .css':'text/css','.js':'application/javascript'}.get(p.suffix,'.txt')) if p.exists() else self.send_json(404,{'error':'not found'})
+    p=FRONTEND/Path(path[8:]);return self.send_file(p,{'.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.svg':'image/svg+xml; charset=utf-8'}.get(p.suffix,'text/plain; charset=utf-8')) if p.exists() else self.send_json(404,{'error':'not found'})
    return self.send_json(404,{'error':'not found'})
   except Exception as e:return self.send_json(500,{'error':str(e),'path':path})
  def do_POST(self):
