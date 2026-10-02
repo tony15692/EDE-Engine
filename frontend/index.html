@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDE — Evidence-aware Dynamics & Design Engine</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header><div><b>EDE</b><span> Evidence-aware Dynamics & Design Engine</span></div><nav>
+<button data-view="dashboard">Dashboard</button><button data-view="observe">Observe</button><button data-view="discover">Discover</button><button data-view="design">Design Lab</button><button data-view="replay">Replay</button><button data-view="simulate">Simulate</button><button data-view="evidence">Evidence</button><button data-view="pilot">Pilot</button>
+</nav></header>
+<main>
+<section id="dashboard" class="view active"><h1>System Dashboard</h1><div id="cards" class="grid"></div><div class="two"><article><h2>Product loop</h2><p>Observe → Discover → Model → Intervene → Search → Replay → Simulate → Stress → Validate</p></article><article><h2>Data readiness</h2><pre id="ready"></pre></article></div></section>
+<section id="observe" class="view"><h1>Observed Event Stream</h1><div class="toolbar"><input id="search" placeholder="unit / actor / activity"><button id="searchBtn">Search</button></div><table><thead><tr><th>Time</th><th>Unit</th><th>Activity</th><th>Actor</th><th>Rework</th><th>Confidence</th></tr></thead><tbody id="events"></tbody></table></section>
+<section id="discover" class="view"><h1>Evidence-derived System Discovery</h1><div class="two"><article><h2>Nodes</h2><pre id="nodes"></pre></article><article><h2>Top paths</h2><pre id="paths"></pre></article></div><article><h2>Bottlenecks & boundary candidates</h2><pre id="bottlenecks"></pre></article></section>
+<section id="design" class="view"><h1>Counterfactual Design Lab</h1><div class="form"><label>Daily volume<input id="volume" type="number" value="5"></label><label>Minutes/unit<input id="minutes" type="number" value="12" step=".1"></label><label>Rework/unit<input id="rework" type="number" value=".08" step=".01"></label><label>Max utilisation<input id="maxutil" type="number" value=".85" step=".05"></label><label>Max handoffs<input id="maxhandoffs" type="number" value="2"></label><button id="searchDesigns">Search architectures</button></div><div class="two"><article><h2>Frontier</h2><pre id="frontier"></pre></article><article><h2>Burden transfer</h2><pre id="transfer"></pre></article></div><article><h2>Architecture table</h2><pre id="designs"></pre></article></section>
+<section id="replay" class="view"><h1>Historical What-if Replay</h1><div class="form"><label>Unit<select id="unit"></select></label><label>Topology<input id="topology" value="T001"></label><button id="replayBtn">Replay</button></div><p class="callout">Observed events remain evidence; inserted events are COUNTERFACTUAL_SCENARIO_ONLY.</p><pre id="replayOut"></pre></section>
+<section id="simulate" class="view"><h1>Simulation & Shock</h1><div class="form"><label>Topology<input id="simtop" value="T001"></label><label>Volume<input id="simvol" type="number" value="5"></label><label>Days<input id="days" type="number" value="21"></label><label>Shock day<input id="shockday" type="number" value="8"></label><label>Shock multiplier<input id="shock" type="number" value="3"></label><button id="simBtn">Run simulation</button></div><pre id="simOut"></pre></section>
+<section id="evidence" class="view"><h1>Evidence, Boundaries & Readiness</h1><div class="two"><article><h2>Readiness</h2><pre id="evidenceReady"></pre></article><article><h2>Boundary audit</h2><pre id="boundary"></pre></article></div><article><h2>Real-data benchmark</h2><pre id="benchmark"></pre></article></section>
+<section id="pilot" class="view"><h1>Pilot & Validation</h1><article><h2>Calibration status</h2><pre id="pilotStatus"></pre></article><article><h2>Add pilot observations</h2><textarea id="pilotJson">[{"design_id":"T001","actor":"Agency","dimension":"handling_minutes","observed":9.5,"source_id":"pilot-demo"}]</textarea><button id="pilotBtn">Store observations</button><pre id="pilotOut"></pre></article></section>
+</main>
+<script src="/static/app.js"></script>
+</body></html>
