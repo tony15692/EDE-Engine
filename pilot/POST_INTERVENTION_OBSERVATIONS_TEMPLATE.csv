@@ -1,0 +1,5 @@
+design_id,actor,dimension,observed,source_id,period,notes
+DESIGN_ID,ACTOR,handling_minutes,0,PILOT_SOURCE,2026-09-30,replace placeholder
+DESIGN_ID,ACTOR,actions,0,PILOT_SOURCE,2026-09-30,replace placeholder
+DESIGN_ID,ACTOR,rework,0,PILOT_SOURCE,2026-09-30,replace placeholder
+DESIGN_ID,ACTOR,waiting_minutes,0,PILOT_SOURCE,2026-09-30,replace placeholder
