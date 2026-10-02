@@ -1,0 +1,7 @@
+services:
+  ede:
+    build: .
+    ports:
+      - "8899:8899"
+    volumes:
+      - ./data:/app/data
