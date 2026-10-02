@@ -1,0 +1,17 @@
+const $=id=>document.getElementById(id);const esc=x=>String(x??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function get(u){const r=await fetch(u);if(!r.ok)throw Error(await r.text());return r.json()}
+async function post(u,b){const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});if(!r.ok)throw Error(await r.text());return r.json()}
+const show=(id,x)=>$(id).textContent=JSON.stringify(x,null,2);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(b.dataset.view).classList.add('active')});
+async function dashboard(){const [o,r,d]=await Promise.all([get('/api/overview'),get('/api/readiness'),get('/api/dynamics').catch(()=>({}))]);const s=o.system;$('cards').innerHTML=[['Events',s.events],['Units',s.units],['Actors',s.actors],['Activities',s.activities],['Evidence confidence',s.mean_confidence],['Handoffs',s.actor_handoffs?.reduce((a,x)=>a+x.count,0)||0]].map(x=>'<div class="card metric"><small>'+esc(x[0])+'</small><strong>'+esc(x[1])+'</strong></div>').join('');show('ready',r);window._dyn=d}
+async function events(){const q=encodeURIComponent($('search').value||'');const x=await get('/api/events?size=100&q='+q);$('events').innerHTML=x.events.map(e=>'<tr><td>'+new Date(Number(e.timestamp)*1000).toLocaleString()+'</td><td>'+esc(e.unit_id)+'</td><td>'+esc(e.activity)+'</td><td>'+esc(e.actor)+'</td><td>'+esc(e.rework)+'</td><td>'+Number(e.confidence).toFixed(2)+'</td></tr>').join('')}
+async function discover(){const x=await get('/api/discover');show('nodes',x.nodes);show('paths',x.paths);show('bottlenecks',{bottlenecks:x.bottlenecks,boundary_gaps:x.boundary_gaps})}
+function params(){return new URLSearchParams({volume:$('volume').value,minutes:$('minutes').value,rework:$('rework').value,max_util:$('maxutil').value,max_handoffs:$('maxhandoffs').value})}
+async function designs(){const x=await get('/api/designs?'+params());show('frontier',x.frontier);show('transfer',x.transfer);show('designs',x.candidates.slice(0,80))}
+async function units(){const x=await get('/api/units');$('unit').innerHTML=x.units.map(u=>'<option>'+esc(u)+'</option>').join('')}
+async function replay(){const x=await get('/api/replay?unit_id='+encodeURIComponent($('unit').value)+'&topology_id='+encodeURIComponent($('topology').value));show('replayOut',x)}
+async function simulate(){const u=new URLSearchParams({topology_id:$('simtop').value,volume:$('simvol').value,days:$('days').value,shock_day:$('shockday').value,shock:$('shock').value});show('simOut',await get('/api/simulate?'+u))}
+async function evidence(){show('evidenceReady',await get('/api/readiness'));show('boundary',await get('/api/boundaries'));show('benchmark',await get('/api/benchmark/real'))}
+async function pilot(){show('pilotStatus',await get('/api/pilot/status'))}
+$('searchBtn').onclick=events;$('search').onkeydown=e=>e.key==='Enter'&&events();$('searchDesigns').onclick=designs;$('replayBtn').onclick=replay;$('simBtn').onclick=simulate;$('pilotBtn').onclick=async()=>{try{show('pilotOut',await post('/api/pilot/observations',{observations:JSON.parse($('pilotJson').value)}));pilot()}catch(e){show('pilotOut',{error:e.message})}};
+(async()=>{try{await dashboard();await events();await discover();await units();await evidence();await pilot();}catch(e){console.error(e)}})();
